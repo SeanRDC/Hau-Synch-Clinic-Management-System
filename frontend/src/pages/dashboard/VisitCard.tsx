@@ -23,12 +23,13 @@ export function VisitCard({ visit, now }: VisitCardProps) {
     <article
       aria-label={`${visit.patient.full_name}, ${state.label}`}
       className={cn(
-        'relative flex flex-col rounded-md border bg-card p-3.5 focus-within:ring-2 focus-within:ring-ring hover:border-foreground/30',
+        'relative flex min-w-0 flex-col rounded-md border bg-card p-3.5 focus-within:ring-2 focus-within:ring-ring hover:border-foreground/30',
         isWithDoctor && 'border-primary ring-1 ring-primary',
         !isOpen && 'bg-muted/40',
       )}
     >
-      <div className="flex items-start justify-between gap-2">
+      {/* The status moves under a long name, so the name is never cut short. */}
+      <div className="flex flex-wrap items-start justify-between gap-x-2 gap-y-1">
         <h3 className="min-w-0 truncate text-base font-semibold">
           {/* The link's hit area is stretched over the whole card. */}
           <Link to={`/visits/${visit.id}`} className="outline-none after:absolute after:inset-0">
