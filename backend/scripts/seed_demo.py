@@ -63,7 +63,7 @@ PATIENTS = [
      None, "Asthma", None),
     ("20240556", "Panergo", "Mark", "student", "male", 20, "School of Computing",
      None, None, None),
-    ("EMP-0042", "Miranda", "Gil", "employee", "male", 45, "Finance Office",
+    ("EMP-0042", "Miranda", "Ramon", "employee", "male", 45, "Finance Office",
      None, "Hypertension", None),
 ]
 
