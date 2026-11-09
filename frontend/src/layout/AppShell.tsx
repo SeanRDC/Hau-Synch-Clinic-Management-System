@@ -59,7 +59,8 @@ export function AppShell() {
       </TopBar>
 
       <div className="flex flex-1">
-        <aside className="sticky top-16 hidden h-[calc(100svh-4rem)] w-[260px] shrink-0 border-r bg-sidebar lg:block">
+        {/* Pinned, and the wheel stays in here: reaching the end never scrolls the page. */}
+        <aside className="sticky top-16 hidden h-[calc(100svh-4rem)] w-[260px] shrink-0 overflow-y-auto overscroll-none border-r bg-sidebar lg:block">
           <Sidebar badges={badges} header={canSearch ? <PatientSearch /> : null} />
         </aside>
 

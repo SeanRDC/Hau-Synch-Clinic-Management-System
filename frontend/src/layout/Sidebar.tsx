@@ -43,7 +43,8 @@ export function Sidebar({ badges = {}, header, onNavigate }: SidebarProps) {
   return (
     <div className="flex h-full flex-col">
       {header ? <div className="border-b p-3">{header}</div> : null}
-      <nav aria-label="Main" className="flex-1 overflow-y-auto pb-4">
+      {/* Relative, so the badges' screen-reader text scrolls with the list and cannot overflow. */}
+      <nav aria-label="Main" className="relative flex-1 overflow-y-auto overscroll-none pb-4">
         {groups.map((group, index) => (
           <div
             key={group.heading ?? `group-${index}`}
