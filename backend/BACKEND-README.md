@@ -49,7 +49,7 @@ The backend runs on one machine inside the clinic (the "HAU-Sync Server Host" in
 * **Validation:** Pydantic 2
 * **Authentication:** JWT bearer tokens, bcrypt password hashes, role-based access control
 * **Live updates:** WebSocket
-* **Tests:** pytest (67 tests)
+* **Tests:** pytest (111 tests)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -126,6 +126,26 @@ First time, on the clinic's server computer:
 Every day after that, double-click `start-clinic.bat` and keep its window open. It prints the address for the stations, for example `http://192.168.1.10:8000`. If a station cannot open it, allow the port through Windows Firewall on the server computer.
 
 After an update of the code, run `.\start-clinic.ps1 -Rebuild` once so the screens are built again. The script applies database migrations on every start; take a backup first (see Operations).
+
+### From the demo to the pilot
+
+The demo data and its accounts (password `hau-sync-demo`) must be gone before the clinic enters a real patient. Do this once, before the pilot starts, and never after real records exist. Run it from `backend`, with the system stopped:
+
+```powershell
+Remove-Item data\hau_sync.db
+Remove-Item data\uploads\* -ErrorAction SilentlyContinue
+Remove-Item data\backups\* -ErrorAction SilentlyContinue
+.venv\Scripts\python.exe -m alembic upgrade head
+.venv\Scripts\python.exe -m scripts.create_admin --username coordinator --name "Last name, First name"
+```
+
+Backups are removed too because they hold copies of the demo data. Then, before the first real record:
+
+1. In `backend/.env`, set `DEBUG=False` and `SECRET_KEY` to a long random value. The server refuses to start with `DEBUG=False` and the placeholder key.
+2. Start the system with `start-clinic.bat` and sign in as the coordinator.
+3. Under **Accounts**, create an account for each person. A new account must change its password at first sign-in.
+4. Under **Inventory**, add the clinic's medicines. Under **Medical kit**, add the kits and set **Kit contents**. A new database has none of these.
+5. Schedule `python -m scripts.backup create --keep 30` daily in Windows Task Scheduler and copy the archives to another drive.
 
 ### Run the tests
 
