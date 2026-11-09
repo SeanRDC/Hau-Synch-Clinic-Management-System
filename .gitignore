@@ -16,6 +16,7 @@ env/
 .env
 .env.*
 !.env.example
+docs/secrets.md
 
 # Backend runtime data: SQLite database, uploaded patient files, backups.
 # These hold patient information and must never be committed.
